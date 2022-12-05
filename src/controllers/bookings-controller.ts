@@ -35,7 +35,7 @@ export async function putBookings(req: AuthenticatedRequest, res: Response) {
 
   const bookingNumber = Number(bookingId);
 
-  if(!bookingId || isNaN(bookingNumber) ) {
+  if(!bookingId || isNaN(bookingNumber)) {
     return res.sendStatus(httpStatus.BAD_REQUEST);
   }
     
@@ -48,9 +48,9 @@ export async function putBookings(req: AuthenticatedRequest, res: Response) {
       return res.sendStatus(httpStatus.UNAUTHORIZED);
     }
         
-    const updateBooking = await bookingsService.putBookingByUserIdAndRoomId(bookingNumber, userId, roomId);
+    await bookingsService.putBookingByUserIdAndRoomId(bookingNumber, userId, roomId);
 
-    return res.status(httpStatus.OK).send(updateBooking);
+    return res.status(httpStatus.OK).send({ id: bookingNumber });
   } catch (error) {
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error.message);
   }

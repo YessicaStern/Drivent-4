@@ -30,8 +30,15 @@ export async function validateTicket(req: AuthenticatedRequest, res: Response, n
 
 export async function validateAndLimitRoom(req: AuthenticatedRequest, res: Response, next: NextFunction) {
   const { roomId } = req.body;
+  if(!roomId) {
+    return res.sendStatus(httpStatus.BAD_REQUEST);
+  }
+  if(isNaN(roomId)) {
+    return res.sendStatus(httpStatus.BAD_REQUEST);
+  }
   try {
     const room = await bookingsService.getRoom(roomId);
+      
     if(!room) {
       return res.sendStatus(httpStatus.NOT_FOUND);
     }
